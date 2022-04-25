@@ -1,3 +1,4 @@
+use std::path::Component::Prefix;
 
 pub type PrefixLength = Option<usize>;
 pub type FastaFilePath = String;
@@ -5,26 +6,20 @@ pub type BinaryFilePath = String;
 pub type OutputFilePath = String;
 
 pub fn longest_common_prefix(s1: &str, offset1: usize, s2: &str, offset2: usize) -> usize {
-	let s1 = s1.as_bytes();
-	let s2 = s2.as_bytes();
-	let mut prefix_length = 0;
-	println!("{:?} {:?}", s1, s2);
-	loop {
-		let char1 = s1.get(offset1 + prefix_length);
-		let char2 = s2.get(offset2 + prefix_length);
-		match (char1, char2) {
-			(Some(c1), Some(c2)) => {
-				if c1 == c2 {
-					prefix_length += 1;
-				} else {
-					return prefix_length;
-				}
-			}
-			(_, _) => {
-				return prefix_length;
-			}
+	let mut s1 = &s1.as_bytes()[offset1..];
+	let mut s2 = &s2.as_bytes()[offset2..];
+
+	if s1.len() < s2.len() {
+		s2 = &s2[..s1.len()];
+	} else {
+		s1 = &s1[..s2.len()];
+	}
+	for i in 0..s1.len() {
+		if s1[i] != s2[i] {
+			return i;
 		}
 	}
+	return s1.len();
 }
 
 

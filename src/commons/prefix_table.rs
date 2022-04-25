@@ -7,33 +7,39 @@ use rustc_hash::FxHashMap;
 use bstr::{B, ByteSlice};
 
 #[derive(Deserialize, Serialize, Clone, PartialEq, Debug)]
-pub struct PrefixTable<'pt> {
+pub struct PrefixTable {
 	pub(crate) prefix_length: usize,
-	#[serde(borrow)]
-	pub(crate) prefix_table: FxHashMap<&'pt [u8], (usize, usize)>
+	pub(crate) prefix_table: FxHashMap<Vec<u8>, (usize, usize)>
 }
 
-impl<'pt> PrefixTable<'pt> {
-	pub fn new(prefix_length: usize, mut reference: Vec<u8>, sa: &RawSuffixArray) -> PrefixTable<'pt> {
+impl PrefixTable {
+	pub fn new(prefix_length: usize, mut reference: Vec<u8>, sa: &RawSuffixArray) -> PrefixTable {
 		let mut prefix_table = FxHashMap::default();
-		let mut current_prefix = B("");
+		let mut current_prefix = vec![0; prefix_length];
 		let mut l = 0;
 		// println!("Len: {}", sa.len());
 		let now = Instant::now();
-		let len = reference.len();
 		for (i, offset) in sa.iter().enumerate() {
-			let prefix : Box<&[u8]> = Box::new(vec![0_u8; prefix_length].into_boxed_slice().as_bytes());
-			println!("{} {}", offset, prefix_length);
-			reference[*offset..min(*offset + prefix_length, len)].clone_from_slice(*prefix);
-			if *prefix != current_prefix.as_bytes() {
+			let mut prefix_changed = false;
+			for i in 0..min(prefix_length, reference.len() - *offset) {
+				if current_prefix[i] != reference[*offset + i] {
+					prefix_changed = true;
+					break;
+				}
+			}
+			if prefix_changed  {
 				if l != 0 {
 					prefix_table.insert(current_prefix.clone(), (l - 1, i - 1));
 				}
-				current_prefix = *prefix;
+				current_prefix = vec![0; prefix_length];
+				// println!("{} {} {:?}", prefix_length, offset, current_prefix);
+				for i in 0..min(prefix_length, reference.len() - *offset) {
+					current_prefix[i] = reference[*offset + i];
+				}
 				l = i + 1;
 			}
 		}
-		println!("Time: {:?}", now.elapsed().as_millis());
+		println!("Time: {:?}", now.elapsed().as_secs());
 		PrefixTable { prefix_length, prefix_table }
 	}
 	pub fn get_interval(&self, sequence: &String) -> Option<(usize, usize)> {

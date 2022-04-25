@@ -3,14 +3,16 @@ mod querysa;
 mod commons;
 mod buildsa;
 
+use bio::data_structures::suffix_array::suffix_array;
 use commons::suffix_array::SuffixArray;
 use commons::prefix_table::PrefixTable;
 use crate::commons::query_mode::QueryMode;
 
 fn main() {
-	let lhs = SuffixArray::new(Some(1), "data/ecoli.fa".to_string()).unwrap();
-	lhs.save(format!("results/ecoli_prefix_table{}", 1)).unwrap();
-	let rhs = SuffixArray::load(format!("results/ecoli_prefix_table{}", 1)).unwrap();
-	assert_eq!(lhs, rhs);
-
+	SuffixArray::query(
+		"results/ecoli_prefix_table8".to_string(),
+		"data/query.fa".to_string(),
+		QueryMode::Simpaccel,
+		"results/query_results.txt".to_string()
+	).unwrap()
 }
