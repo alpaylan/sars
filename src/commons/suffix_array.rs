@@ -57,7 +57,7 @@ impl SuffixArray {
 		let sa = SuffixArray::load(index_path).unwrap();
 		let records = FastaFile(queries_path).records();
 		let mut positions = vec![];
-		for record in records.map(|rec| rec.unwrap()).take(20) {
+		for record in records.map(|rec| rec.unwrap()) {
 			let rec =  record.to_string();
 			let mut parts = rec.split_whitespace();
 			let name : String = parts.nth(0).unwrap().chars().skip(1).collect();
@@ -72,11 +72,13 @@ impl SuffixArray {
 		let mut file = OpenOptions::new()
 			.create(true)
 			.write(true)
-			.append(true)
+			// .append(true)
 			.open(output_path)
 			.unwrap();
+		positions.sort();
 		for pos in positions{
 			file.write_all(pos.as_bytes());
+			// println!("{}", pos);
 		}
 
 
@@ -174,9 +176,9 @@ impl SuffixArray {
 		let (right_index, lcp_right_seq) = right;
 
 		let center = (left_index + right_index)/2;
-		let lcp_center_seq = longest_common_prefix(
-			&self.reference.to_str().unwrap(), self.sa[center],
-			sequence, 0,
+		let lcp_center_seq = lcp_left_seq + longest_common_prefix(
+			&self.reference.to_str().unwrap(), self.sa[center] + lcp_left_seq,
+			sequence, 0 + lcp_left_seq,
 		);
 
 		if lcp_left_seq == sequence.len() {
@@ -230,17 +232,17 @@ mod tests {
 	use crate::PrefixTable;
 	use super::SuffixArray;
 
-	#[test]
+	// #[test]
 	fn save_load_pair() {
 		SuffixArray::build(None, "data/ecoli.fa".to_string(), format!("results/ecoli_prefix_table_none")).unwrap();
 	}
-	#[test]
+	// #[test]
 	fn save_load_pair_with_prefix_table() {
 		for i in 1..=15 {
 			SuffixArray::build(Some(i), "data/ecoli.fa".to_string(), format!("results/ecoli_prefix_table{}", i)).unwrap();
 		}
 	}
-	#[test]
+	// #[test]
 	fn query() {
 		SuffixArray::query(
 			format!("results/ecoli_prefix_table{}", 8),
