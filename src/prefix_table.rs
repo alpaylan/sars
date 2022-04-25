@@ -17,8 +17,6 @@ impl PrefixTable {
 		let mut prefix_table = FxHashMap::default();
 		let mut current_prefix = vec![0; prefix_length];
 		let mut l = 0;
-		// println!("Len: {}", sa.len());
-		let now = Instant::now();
 		for (i, offset) in sa.iter().enumerate() {
 			let mut prefix_changed = false;
 			for i in 0..min(prefix_length, reference.len() - *offset) {
@@ -32,14 +30,12 @@ impl PrefixTable {
 					prefix_table.insert(current_prefix.clone(), (l - 1, i - 1));
 				}
 				current_prefix = vec![0; prefix_length];
-				// println!("{} {} {:?}", prefix_length, offset, current_prefix);
 				for i in 0..min(prefix_length, reference.len() - *offset) {
 					current_prefix[i] = reference[*offset + i];
 				}
 				l = i + 1;
 			}
 		}
-		println!("Time: {:?}", now.elapsed().as_secs());
 		PrefixTable { prefix_length, prefix_table }
 	}
 	pub fn get_interval(&self, sequence: &String) -> Option<(usize, usize)> {
