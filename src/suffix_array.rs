@@ -1,5 +1,4 @@
 #![allow(dead_code)]
-
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::fs::{File, OpenOptions};
@@ -7,10 +6,10 @@ use std::io::{BufReader, BufWriter, Write};
 use std::ops::{Add, Deref};
 use bio::data_structures::suffix_array::{RawSuffixArray, suffix_array};
 use serde::{Serialize, Deserialize};
-use crate::commons::query_mode::QueryMode;
-use crate::commons::prefix_table::PrefixTable;
-use crate::commons::commons::*;
-use crate::commons::fasta_file::FastaFile;
+use crate::query_mode::QueryMode;
+use crate::prefix_table::PrefixTable;
+use crate::commons::*;
+use crate::fasta_file::FastaFile;
 use std::string::String;
 use std::time::Instant;
 use serde::de::Unexpected::Str;

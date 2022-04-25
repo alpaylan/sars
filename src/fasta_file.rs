@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::BufReader;
 use bio::io::fasta::Records;
-use crate::commons::commons::FastaFilePath;
+use crate::commons::FastaFilePath;
 
 pub(crate) struct FastaFile(pub FastaFilePath);
 
