@@ -3,7 +3,8 @@ name = "sars"
 version = "0.1.0"
 edition = "2021"
 authors = ["Alperen Keles"]
-
+description = "SARS is a Lightweight Suffix Arrays Library for Rust"
+license = "MIT"
 [[bin]]
 name = "buildsa"
 path = "buildsa/buildsa.rs"
