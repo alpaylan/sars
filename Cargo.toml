@@ -21,7 +21,7 @@ path = "benchmark/benchmark.rs"
 
 [dependencies]
 clap = { version = "3.1", features = ["derive", "cargo"] }
-bio = { version = "*" }
+bio = { version = "0.41" }
 bincode = { version = "1.3" }
 serde = { version = "1.0" }
 rustc-hash = "1.1.0"
