@@ -8,4 +8,5 @@ functions and `bstr` for
 _byte/string_ conversions. 
 
 Github Link: [https://github.com/alpaylan/sars](https://github.com/alpaylan/sars)
-Crates.io Link: []()
+
+Crates.io Link: [https://crates.io/crates/sars](https://crates.io/crates/sars)
