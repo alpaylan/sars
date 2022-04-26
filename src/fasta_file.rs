@@ -3,7 +3,7 @@ use std::io::BufReader;
 use bio::io::fasta::Records;
 use crate::commons::FastaFilePath;
 
-pub(crate) struct FastaFile(pub FastaFilePath);
+pub struct FastaFile(pub FastaFilePath);
 
 impl FastaFile {
 	pub fn records(&self) -> Records<BufReader<File>> {

@@ -12,6 +12,10 @@ path = "buildsa/buildsa.rs"
 name = "querysa"
 path = "querysa/querysa.rs"
 
+[[bin]]
+name = "benchmark"
+path = "benchmark/benchmark.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]

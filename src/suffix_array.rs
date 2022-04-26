@@ -85,7 +85,7 @@ impl SuffixArray {
 		Ok(())
 	}
 
-	fn generate_prefix_table(sa: &RawSuffixArray, reference: Vec<u8>, prefix_length: PrefixLength) -> Option<PrefixTable> {
+	pub fn generate_prefix_table(sa: &RawSuffixArray, reference: Vec<u8>, prefix_length: PrefixLength) -> Option<PrefixTable> {
 		prefix_length.map(|k|
 
 			PrefixTable::new(k, reference, sa)
@@ -93,7 +93,7 @@ impl SuffixArray {
 
 		)}
 
-	pub(crate) fn search(&self, query_mode: QueryMode, sequence: &String) -> Vec<usize> {
+	pub fn search(&self, query_mode: QueryMode, sequence: &String) -> Vec<usize> {
 
 		let mut interval = Some((0_usize, self.reference.len() - 1));
 		if let Some(prefix_table) = &self.pref_tab {
