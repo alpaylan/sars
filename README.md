@@ -154,6 +154,24 @@ We can see that up until prefix length 7, prefix table is merely negligible. But
 
     Table of prefix length/file sizes
 
+| Prefix Length | Time to Create Prefix Table(As Milliseconds) |
+| --- |----------------------------------------------|
+| 1 | 746                                          |
+| 2 | 1148                                         |
+| 3 | 1617                                         |
+| 4 | 2497                                         |
+| 5 | 2449                                         |
+| 6 | 2844                                         |
+| 7 | 3376                                         |
+| 8 | 9317                                         |
+| 9 | 8504                                         |
+| 10 | 18488                                        |
+| 11 | 17606                                        |
+| 12 | 52644                                        |
+| 13 | 32074                                        |
+| 14 | 30912                                        |
+| 15 |                                              |
+    Time to create prefix tables on full reference
 
 **-- Given the scaling above, how large of a genome do you think you could construct the suffix array for on a machine with 32GB of RAM, why?**   
 We have a 42MB serialized file for a roughly 4MB reference. Hence, the ratio is close to 1/10. Without a prefix table, we could scale up to a 3GB size reference, approximately 1000 times our current reference, which would make our length 4.6B nucleotides.
