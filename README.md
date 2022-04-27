@@ -13,7 +13,90 @@ Github Link: [https://github.com/alpaylan/sars](https://github.com/alpaylan/sars
 
 Crates.io Link: [https://crates.io/crates/sars](https://crates.io/crates/sars)
 
+## Running
 
+There are two executables, both use API provided by sars.
+
+### buildsa
+
+Buildsa allows you to use custom `fasta` files for building suffix arrays over them.
+
+After downloading the project, you should be able to do   
+`cargo run --bin buildsa -- --help`   
+to see the options. 
+
+```yaml
+sars 0.1.0
+Alperen Keles
+SARS is a Lightweight Suffix Arrays Library for Rust
+
+USAGE:
+    buildsa [OPTIONS] [ARGS]
+
+ARGS:
+    <reference>    the path to a FASTA format file containing the reference of which you will
+                   build the suffix array
+    <output>       the program will write a single binary output file to a file with this name,
+                   that contains a serialized version of the input string and the suffix array
+
+OPTIONS:
+    -h, --help           Print help information
+    -p, --preftab <k>    if the option --preftab is passed to the buildsa executable (with the
+                         parameter k), then a prefix table will be built atop the suffix array,
+                         capable of jumping to the suffix array interval corresponding to any prefix
+                         of length k
+    -V, --version        Print version information
+```
+
+You will see the prompt above. You can provide the relevant arguments for building your suffix array.
+
+```asm
+builsa --preftab 3 reference_file_path output_file_path
+=======================================================
+builsa reference_file_path output_file_path
+```
+
+
+### querysa
+
+Querysa allows you to use custom `fasta` files for doing queries over an index.
+
+After downloading the project, you should be able to do   
+`cargo run --bin querysa -- --help`   
+to see the options.
+
+```yaml
+sars 0.1.0
+  Alperen Keles
+  SARS is a Lightweight Suffix Arrays Library for Rust
+
+USAGE:
+  querysa [ARGS]
+
+ARGS:
+  <index>        the path to the binary file containing your serialized suffix array
+  <queries>      the path to an input file in FASTA format containing a set of records. You
+  will need to care about both the name and sequence of these fasta records, as
+  you will report the output using the name that appears for a record. Note,
+  query sequences can span more than one line (headers will always be on one
+  line).
+  <querymode>    this argument should be one of two strings; either naive or simpaccel. If the
+  string is naive you should perform your queries using the naive binary search
+  algorithm. If the string is simpaccel you should perform your queries using
+  the “simple accelerant” algorithm we covered in class [possible values;
+  naive, simpaccel]
+  <output>       the name to use for the resulting output.
+
+OPTIONS:
+  -h, --help       Print help information
+  -V, --version    Print version information
+```
+
+You will see the prompt above. You can provide the relevant arguments for querying your suffix array.
+
+```asm
+querysa index_file_path query_file_path query_mode output_file_path
+```
 
 ## Build
 
