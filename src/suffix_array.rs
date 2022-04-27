@@ -18,8 +18,8 @@ use bstr::ByteSlice;
 #[derive(Deserialize, Serialize, Clone, PartialEq, Debug)]
 pub struct SuffixArray {
 	pub sa: RawSuffixArray,
-	pub(crate) reference: Vec<u8>,
-	pub(crate) pref_tab: Option<PrefixTable>
+	pub reference: Vec<u8>,
+	pub pref_tab: Option<PrefixTable>
 }
 
 impl SuffixArray {
